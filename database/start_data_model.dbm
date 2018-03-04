@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.2" last-position="3,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<role name="alex"
+      superuser="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="environment" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
+	<role name="alex"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<extension name="postgis" cur-version="2.3.3">
+	<schema name="public"/>
+	<comment><![CDATA[PostGIS geometry, geography, and raster spatial types and functions]]></comment>
+</extension>
+
+<sequence name="locations_location_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="alex"/>
+</sequence>
+
+<table name="locations">
+	<schema name="public"/>
+	<role name="alex"/>
+	<position x="820" y="280"/>
+	<column name="location_id" not-null="true" sequence="public.locations_location_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="city" not-null="true">
+		<type name="character varying" length="20"/>
+	</column>
+	<column name="street" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="location">
+		<type name="geometry"/>
+	</column>
+	<constraint name="locations_pkey" type="pk-constr" table="public.locations">
+		<columns names="city,street" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="locations_location_id_key" type="uq-constr" table="public.locations">
+		<columns names="location_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="stations_station_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="alex"/>
+</sequence>
+
+<table name="stations">
+	<schema name="public"/>
+	<role name="alex"/>
+	<position x="540" y="180"/>
+	<column name="station_id" not-null="true" sequence="public.stations_station_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="location_id" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="station_code" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<constraint name="stations_pkey" type="pk-constr" table="public.stations">
+		<columns names="location_id,station_code" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="stations_station_id_key" type="uq-constr" table="public.stations">
+		<columns names="station_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="metals_metal_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="alex"/>
+</sequence>
+
+<table name="metals">
+	<schema name="public"/>
+	<role name="alex"/>
+	<position x="540" y="380"/>
+	<column name="metal_id" not-null="true" sequence="public.metals_metal_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="metal_type" not-null="true">
+		<type name="character varying" length="30"/>
+	</column>
+	<constraint name="metals_pkey" type="pk-constr" table="public.metals">
+		<columns names="metal_type" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="metals_metal_id_key" type="uq-constr" table="public.metals">
+		<columns names="metal_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="measurments_measur_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="public"/>
+	<role name="alex"/>
+</sequence>
+
+<table name="measurments">
+	<schema name="public"/>
+	<role name="alex"/>
+	<position x="300" y="260"/>
+	<column name="measur_id" not-null="true" sequence="public.measurments_measur_id_seq">
+		<type name="integer"/>
+	</column>
+	<column name="station" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="metal" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date"/>
+	</column>
+	<constraint name="measurments_pkey" type="pk-constr" table="public.measurments">
+		<columns names="station,metal,date" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="measurments_measur_id_key" type="uq-constr" table="public.measurments">
+		<columns names="measur_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="results">
+	<schema name="public"/>
+	<role name="alex"/>
+	<position x="60" y="220"/>
+	<column name="measur">
+		<type name="smallint"/>
+	</column>
+	<column name="filter_counter" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="volum" not-null="true">
+		<type name="real"/>
+	</column>
+	<column name="dust" not-null="true">
+		<type name="real"/>
+	</column>
+	<column name="k1">
+		<type name="smallint"/>
+	</column>
+	<column name="k2">
+		<type name="smallint"/>
+	</column>
+	<column name="k3">
+		<type name="smallint"/>
+	</column>
+	<column name="k4">
+		<type name="smallint"/>
+	</column>
+	<column name="d" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="koef" not-null="true">
+		<type name="real"/>
+	</column>
+	<column name="k_measur" not-null="true">
+		<type name="real"/>
+	</column>
+	<column name="empty_filter" not-null="true">
+		<type name="real"/>
+	</column>
+	<column name="norm_volum" not-null="true">
+		<type name="real"/>
+	</column>
+</table>
+
+<constraint name="stations_location_id_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.locations" table="public.stations">
+	<columns names="location_id" ref-type="src-columns"/>
+	<columns names="location_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="measurments_station_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.stations" table="public.measurments">
+	<columns names="station" ref-type="src-columns"/>
+	<columns names="station_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="measurments_metal_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.metals" table="public.measurments">
+	<columns names="metal" ref-type="src-columns"/>
+	<columns names="metal_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="results_measur_fkey" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.measurments" table="public.results">
+	<columns names="measur" ref-type="src-columns"/>
+	<columns names="measur_id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_stations_locations" type="relfk"
+	 custom-color="#b5ad39"
+	 src-table="public.stations"
+	 dst-table="public.locations"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_measurments_stations" type="relfk"
+	 custom-color="#5e6293"
+	 src-table="public.measurments"
+	 dst-table="public.stations"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_measurments_metals" type="relfk"
+	 custom-color="#18f571"
+	 src-table="public.measurments"
+	 dst-table="public.metals"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_results_measurments" type="relfk"
+	 custom-color="#72ae83"
+	 src-table="public.results"
+	 dst-table="public.measurments"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
