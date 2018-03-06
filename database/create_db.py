@@ -36,15 +36,16 @@ with psycopg2.connect(connection_row) as connect:
 
         cursor.execute("CREATE TABLE station_metals(" +
                        "city_metal_id SERIAL UNIQUE," +
-                       "station int2 REFERENCES stations(station_id)," +
+                       "station int2 REFERENCES stations(station_id) " +
                        "ON UPDATE CASCADE ON DELETE CASCADE," +
-                       "metal int2 REFERENCES metals(metal_id)" +
+                       "metal int2 REFERENCES metals(metal_id) " +
                        "ON UPDATE CASCADE ON DELETE CASCADE," +
+                       "date DATE," +
                        "measure real," +
                        "PRIMARY KEY (station, metal, date))")
 
         cursor.execute("CREATE TABLE results(" +
-                       "station_id int2 REFERENCES station (station_id)," +
+                       "station_id int2 REFERENCES stations (station_id) " +
                        "ON UPDATE CASCADE ON DELETE CASCADE," +
                        "filter_counter int2 NOT NULL," +
                        "volum real NOT NULL," +
