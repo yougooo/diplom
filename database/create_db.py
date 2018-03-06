@@ -1,6 +1,4 @@
-
-
-# python 3.6
+#!/usr/bin/python3
 
 import psycopg2
 
@@ -14,6 +12,7 @@ with psycopg2.connect(connection_row) as connect:
         cursor.execute("DROP TABLE IF EXISTS stations")
         cursor.execute("DROP TABLE IF EXISTS locations")
         cursor.execute("DROP TABLE IF EXISTS metals")
+        cursor.execute("DROP TABLE IF EXISTS city_metals")
         #cursor.execute("DROP TABLE IF EXISTS average")
 
         #cursor.execute("CREATE EXTENSION postgis")
@@ -35,19 +34,18 @@ with psycopg2.connect(connection_row) as connect:
                        "metal_id SERIAL UNIQUE," +
                        "metal_type VARCHAR(30) PRIMARY KEY)")
 
-        cursor.execute("CREATE TABLE measurments(" +
-                       "measur_id SERIAL UNIQUE," +
-                       "station int2 REFERENCES stations (station_id) " +
+        cursor.execute("CREATE TABLE station_metals(" +
+                       "city_metal_id SERIAL UNIQUE," +
+                       "station int2 REFERENCES stations(station_id)," +
                        "ON UPDATE CASCADE ON DELETE CASCADE," +
-                       "metal int2 REFERENCES metals (metal_id) " +
+                       "metal int2 REFERENCES metals(metal_id)" +
                        "ON UPDATE CASCADE ON DELETE CASCADE," +
-                       "date DATE NOT NULL," +
-                       "measur real," +
+                       "measure real," +
                        "PRIMARY KEY (station, metal, date))")
 
         cursor.execute("CREATE TABLE results(" +
-                       "measur int2 REFERENCES measurments (measur_id) " +
-                       "ON UPDATE CASCADE ON DELETE CASCADE,"+
+                       "station_id int2 REFERENCES station (station_id)," +
+                       "ON UPDATE CASCADE ON DELETE CASCADE," +
                        "filter_counter int2 NOT NULL," +
                        "volum real NOT NULL," +
                        "dust real NOT NULL," +
@@ -61,3 +59,4 @@ with psycopg2.connect(connection_row) as connect:
                        "empty_filter real NOT NULL," +
                        "norm_volum real NOT NULL," +
                        "mass_x real NOT NULL)")
+
